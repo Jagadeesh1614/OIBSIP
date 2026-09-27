@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Araku Roast Co. – Fresh filter coffee, delivered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--forest:#12372a;--leaf:#1f5a44;--mist:#eef3f0;--saffron:#f2b632;--ink:#1b1b1b;--white:#fff;
+--head:'Bricolage Grotesque',Georgia,sans-serif;--body:'Source Sans 3',Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font-family:var(--body);font-size:1.0625rem;line-height:1.6;color:var(--ink);background:var(--white)}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:var(--forest);color:var(--white)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;flex-wrap:wrap}
+.logo{font-family:var(--head);font-weight:800;font-size:1.25rem;text-decoration:none}
+nav ul{display:flex;gap:24px;list-style:none}
+nav ul a{text-decoration:none;padding:6px 0}
+nav ul a:hover,nav ul a:focus-visible{border-bottom:2px solid var(--saffron)}
+/* hero */
+.hero{background:var(--forest);color:var(--white);padding:88px 0 96px}
+.hero .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center}
+h1{font-family:var(--head);font-weight:800;font-size:3.25rem;line-height:1.08;margin-bottom:20px}
+.hero p{font-size:1.25rem;max-width:34em;margin-bottom:32px;color:#d5e4dc}
+.btn{display:inline-block;background:var(--saffron);color:var(--ink);font-weight:600;padding:14px 28px;border-radius:6px;text-decoration:none}
+.btn:hover{background:#ffc94d}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--white);outline-offset:3px}
+.roast{background:var(--leaf);border-radius:16px;padding:28px}
+.roast h2{font-family:var(--head);font-size:1.1rem;margin-bottom:14px}
+.roast dl{display:grid;grid-template-columns:auto 1fr;gap:8px 20px}
+.roast dt{color:#a9c7b9}
+/* sections */
+section{padding:80px 0}
+h2.title{font-family:var(--head);font-size:2.25rem;line-height:1.15;margin-bottom:40px}
+.features{background:var(--mist)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.grid3 h3{font-family:var(--head);font-size:1.3rem;border-top:4px solid var(--saffron);padding-top:16px;margin-bottom:8px}
+.quotes .grid3{gap:32px}
+blockquote{border-left:4px solid var(--leaf);padding-left:20px}
+blockquote footer{margin-top:10px;font-weight:600;color:var(--leaf)}
+/* footer */
+footer.site{background:var(--ink);color:#cfcfcf;padding:48px 0}
+footer.site .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer.site ul{list-style:none;display:flex;gap:20px;flex-wrap:wrap}
+@media (max-width:800px){
+ .hero{padding:56px 0 64px}.hero .wrap{grid-template-columns:1fr}
+ h1{font-size:2.4rem}.grid3{grid-template-columns:1fr;gap:32px}
+ section{padding:56px 0}nav ul{gap:16px}
+}
+</style>
+</head>
+<body>
+<nav>
+ <div class="wrap">
+  <a class="logo" href="#top">Araku Roast Co.</a>
+  <ul>
+   <li><a href="#features">Why us</a></li>
+   <li><a href="#reviews">Reviews</a></li>
+   <li><a href="#contact">Contact</a></li>
+  </ul>
+ </div>
+</nav>
+
+<header class="hero" id="top">
+ <div class="wrap">
+  <div>
+   <h1>Coffee roasted this week, at your door by Friday.</h1>
+   <p>Single-estate beans from the Araku Valley, roasted in small batches and shipped within 48 hours of roasting.</p>
+   <a class="btn" href="#contact">Start your first bag</a>
+  </div>
+  <aside class="roast" aria-label="This week's roast">
+   <h2>This week's roast</h2>
+   <dl>
+    <dt>Origin</dt><dd>Araku Valley, Andhra Pradesh</dd>
+    <dt>Altitude</dt><dd>1,100 m</dd>
+    <dt>Roast</dt><dd>Medium</dd>
+    <dt>Tastes like</dt><dd>Dark chocolate, orange peel</dd>
+   </dl>
+  </aside>
+ </div>
+</header>
+
+<section class="features" id="features">
+ <div class="wrap">
+  <h2 class="title">Why it tastes different</h2>
+  <div class="grid3">
+   <div><h3>Roasted to order</h3><p>Nothing sits on a shelf. Your bag is roasted after you order it.</p></div>
+   <div><h3>Traceable beans</h3><p>Every bag names the farm and the harvest month it came from.</p></div>
+   <div><h3>Skip or pause anytime</h3><p>Change your delivery date or cancel in two taps, no emails needed.</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="quotes" id="reviews">
+ <div class="wrap">
+  <h2 class="title">What customers say</h2>
+  <div class="grid3">
+   <blockquote><p>The smell when I opened the bag was better than any café I've been to.</p><footer>Ananya, Hyderabad</footer></blockquote>
+   <blockquote><p>Arrived two days after roasting. My morning filter coffee finally tastes right.</p><footer>Ravi, Vijayawada</footer></blockquote>
+   <blockquote><p>Easy to pause when I travel. That alone made me switch.</p><footer>Meera, Bengaluru</footer></blockquote>
+  </div>
+ </div>
+</section>
+
+<footer class="site" id="contact">
+ <div class="wrap">
+  <div>
+   <p class="logo" style="color:#fff">Araku Roast Co.</p>
+   <p>hello@arakuroast.example<br>+91 90000 00000</p>
+  </div>
+  <ul>
+   <li><a href="#">Instagram</a></li>
+   <li><a href="#">Facebook</a></li>
+   <li><a href="#">WhatsApp</a></li>
+  </ul>
+ </div>
+</footer>
+</body>
+</html>

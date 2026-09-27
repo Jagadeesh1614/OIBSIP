@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Temperature Converter</title>
+<style>
+:root{--bg:#e8f1f5;--card:#fff;--ink:#12232e;--accent:#0b7285;--err:#b42318;--line:#c5d5dd}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+main{background:var(--card);width:100%;max-width:440px;border-radius:14px;padding:32px;box-shadow:0 8px 24px rgba(18,35,46,.12)}
+h1{font-size:1.6rem;margin-bottom:24px;text-align:center}
+label{display:block;font-weight:bold;margin:16px 0 6px}
+input,select,button{width:100%;font-size:1rem;padding:12px;border:1px solid var(--line);border-radius:8px}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+input[aria-invalid="true"]{border-color:var(--err)}
+button{margin-top:24px;background:var(--accent);color:#fff;border:0;font-weight:bold;cursor:pointer}
+button:hover{background:#095c6b}
+#error{color:var(--err);min-height:1.4em;margin-top:8px;font-size:.95rem}
+#results{margin-top:20px;display:grid;gap:8px}
+.row{display:flex;justify-content:space-between;background:var(--bg);padding:12px 16px;border-radius:8px}
+.row span:last-child{font-weight:bold}
+</style>
+</head>
+<body>
+<main>
+ <h1>Temperature Converter</h1>
+ <label for="value">Temperature</label>
+ <input id="value" type="text" inputmode="decimal" placeholder="e.g. 36.6" autocomplete="off" aria-describedby="error">
+ <label for="unit">Convert from</label>
+ <select id="unit">
+  <option value="C">Celsius (°C)</option>
+  <option value="F">Fahrenheit (°F)</option>
+  <option value="K">Kelvin (K)</option>
+ </select>
+ <button id="convert" type="button">Convert</button>
+ <p id="error" role="alert"></p>
+ <div id="results" aria-live="polite"></div>
+</main>
+<script>
+const input = document.getElementById('value');
+const unit = document.getElementById('unit');
+const errorEl = document.getElementById('error');
+const results = document.getElementById('results');
+
+function showError(msg){
+  errorEl.textContent = msg;
+  input.setAttribute('aria-invalid', 'true');
+  results.innerHTML = '';
+}
+
+function convert(){
+  errorEl.textContent = '';
+  input.removeAttribute('aria-invalid');
+  const raw = input.value.trim();
+
+  if (raw === '') return showError('Enter a temperature to convert.');
+  if (!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(raw)) return showError('Enter a number only, like 25 or -40.5.');
+
+  const n = parseFloat(raw);
+  const from = unit.value;
+  const c = from === 'C' ? n : from === 'F' ? (n - 32) * 5 / 9 : n - 273.15;
+
+  if (c < -273.15) return showError('That is below absolute zero (−273.15 °C, −459.67 °F, 0 K). Enter a higher value.');
+
+  const out = { C: c, F: c * 9 / 5 + 32, K: c + 273.15 };
+  const names = { C: 'Celsius', F: 'Fahrenheit', K: 'Kelvin' };
+  const symbols = { C: '°C', F: '°F', K: ' K' };
+
+  results.innerHTML = Object.keys(out).map(u =>
+    `<div class="row"><span>${names[u]}</span><span>${(Math.round(out[u] * 100) / 100)}${symbols[u]}</span></div>`
+  ).join('');
+}
+
+document.getElementById('convert').addEventListener('click', convert);
+input.addEventListener('keydown', e => { if (e.key === 'Enter') convert(); });
+</script>
+</body>
+</html>

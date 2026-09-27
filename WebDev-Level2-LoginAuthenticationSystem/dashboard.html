@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard</title><link rel="stylesheet" href="auth.css">
+<script src="auth.js"></script>
+<script>if (!Auth.current()) location.replace('login.html');</script>
+</head>
+<body>
+<main class="card">
+ <h1>Dashboard</h1>
+ <p>You are signed in as <b id="who"></b>.</p>
+ <p class="hint" style="margin-top:12px">This page is only visible to logged-in users.</p>
+ <button id="logout" type="button">Logout</button>
+</main>
+<script>
+document.getElementById('who').textContent = Auth.current() || '';
+document.getElementById('logout').addEventListener('click', () => { Auth.logout(); location.href = 'login.html'; });
+</script>
+</body></html>

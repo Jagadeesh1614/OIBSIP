@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>To-Do App</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#eef2f7;color:#1f2933;padding:32px 16px}
+main{max-width:640px;margin:0 auto}
+h1{margin-bottom:20px}
+h2{font-size:1.1rem;margin:28px 0 10px}
+form{display:flex;gap:8px}
+input[type=text]{flex:1;min-width:0;padding:12px;font-size:1rem;border:1px solid #c5d0dc;border-radius:8px}
+button{padding:8px 12px;font-size:.9rem;border:0;border-radius:6px;background:#3e4c59;color:#fff;cursor:pointer}
+form button{background:#0b7285;padding:12px 18px;font-size:1rem}
+button.danger{background:#c53030}
+button:focus-visible,input:focus-visible{outline:3px solid #f0b429;outline-offset:2px}
+ul{list-style:none;display:grid;gap:8px}
+li{background:#fff;border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.text{flex:1;min-width:140px}
+.done .text{text-decoration:line-through;color:#7b8794}
+.time{display:block;font-size:.78rem;color:#7b8794}
+.empty{color:#7b8794;font-style:italic;padding:12px}
+.edit-input{flex:1;padding:8px;font-size:1rem;border:1px solid #0b7285;border-radius:6px}
+</style>
+</head>
+<body>
+<main>
+ <h1>My Tasks</h1>
+ <form id="form">
+  <input id="new" type="text" placeholder="What needs doing?" aria-label="New task" maxlength="120">
+  <button type="submit">Add Task</button>
+ </form>
+
+ <h2 id="pending-title"></h2>
+ <ul id="pending"></ul>
+ <h2 id="done-title"></h2>
+ <ul id="done"></ul>
+</main>
+<script>
+const KEY = 'todo-tasks';
+let tasks = [];
+try { tasks = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { tasks = []; }
+let editingId = null;
+
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(tasks)); } catch (e) {} };
+const stamp = ts => new Date(ts).toLocaleString([], {dateStyle:'medium', timeStyle:'short'});
+
+function btn(label, cls, onClick){
+  const b = document.createElement('button');
+  b.type = 'button'; b.textContent = label;
+  if (cls) b.className = cls;
+  b.addEventListener('click', onClick);
+  return b;
+}
+
+function renderItem(t){
+  const li = document.createElement('li');
+  if (t.done) li.className = 'done';
+
+  const check = document.createElement('input');
+  check.type = 'checkbox'; check.checked = t.done;
+  check.setAttribute('aria-label', t.done ? 'Mark pending' : 'Mark complete');
+  check.addEventListener('change', () => {
+    t.done = check.checked;
+    t.completedAt = t.done ? Date.now() : null;
+    save(); render();
+  });
+  li.appendChild(check);
+
+  if (editingId === t.id){
+    const inp = document.createElement('input');
+    inp.className = 'edit-input'; inp.value = t.text; inp.setAttribute('aria-label', 'Edit task');
+    const commit = () => {
+      const v = inp.value.trim();
+      if (v) t.text = v;
+      editingId = null; save(); render();
+    };
+    inp.addEventListener('keydown', e => {
+      if (e.key === 'Enter') commit();
+      if (e.key === 'Escape'){ editingId = null; render(); }
+    });
+    li.appendChild(inp);
+    li.appendChild(btn('Save', '', commit));
+    setTimeout(() => inp.focus(), 0);
+  } else {
+    const box = document.createElement('div');
+    box.className = 'text';
+    box.appendChild(document.createTextNode(t.text));
+    const time = document.createElement('span');
+    time.className = 'time';
+    time.textContent = 'Added ' + stamp(t.createdAt) + (t.done && t.completedAt ? ' · Completed ' + stamp(t.completedAt) : '');
+    box.appendChild(time);
+    li.appendChild(box);
+    li.appendChild(btn('Edit', '', () => { editingId = t.id; render(); }));
+  }
+  li.appendChild(btn('Delete', 'danger', () => {
+    tasks = tasks.filter(x => x.id !== t.id); save(); render();
+  }));
+  return li;
+}
+
+function fill(listId, items, emptyMsg){
+  const ul = document.getElementById(listId);
+  ul.replaceChildren();
+  if (!items.length){
+    const li = document.createElement('li');
+    li.className = 'empty'; li.textContent = emptyMsg;
+    ul.appendChild(li);
+  } else items.forEach(t => ul.appendChild(renderItem(t)));
+}
+
+function render(){
+  const pending = tasks.filter(t => !t.done);
+  const done = tasks.filter(t => t.done);
+  document.getElementById('pending-title').textContent = 'Pending Tasks: ' + pending.length + ' pending';
+  document.getElementById('done-title').textContent = 'Completed Tasks: ' + done.length + ' completed';
+  fill('pending', pending, 'Nothing pending. Add a task above to get started.');
+  fill('done', done, 'No completed tasks yet. Finish one and it will show up here.');
+}
+
+document.getElementById('form').addEventListener('submit', e => {
+  e.preventDefault();
+  const input = document.getElementById('new');
+  const text = input.value.trim();
+  if (!text) return input.focus();
+  tasks.unshift({ id: Date.now() + Math.random(), text, done: false, createdAt: Date.now(), completedAt: null });
+  input.value = ''; save(); render();
+});
+
+render();
+</script>
+</body>
+</html>

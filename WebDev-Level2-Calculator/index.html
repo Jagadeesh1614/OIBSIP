@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculator</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#1f2933;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.calc{background:#323f4b;width:100%;max-width:340px;border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.screen{background:#102a43;color:#fff;border-radius:10px;padding:14px 16px;margin-bottom:16px;text-align:right;min-height:88px;overflow:hidden}
+#expr{color:#9fb3c8;font-size:.95rem;min-height:1.3em;word-break:break-all}
+#main{font-size:2.2rem;font-weight:bold;word-break:break-all}
+#main.error{font-size:1.2rem;color:#ff8a80}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+button{font-size:1.25rem;padding:16px 0;border:0;border-radius:10px;background:#52606d;color:#fff;cursor:pointer}
+button:hover{filter:brightness(1.15)}
+button:focus-visible{outline:3px solid #f7c948;outline-offset:2px}
+.op{background:#f0b429;color:#1f2933;font-weight:bold}
+.eq{background:#0b7285;grid-row:span 2}
+.clear{background:#c53030}
+.zero{grid-column:span 2}
+</style>
+</head>
+<body>
+<main class="calc">
+ <div class="screen" aria-live="polite"><div id="expr"></div><div id="main">0</div></div>
+ <div class="keys">
+  <button class="clear" data-action="clear">C</button>
+  <button data-action="back" aria-label="Backspace">⌫</button>
+  <button class="op" data-action="op" data-value="÷">÷</button>
+  <button class="op" data-action="op" data-value="×">×</button>
+  <button data-action="digit" data-value="7">7</button>
+  <button data-action="digit" data-value="8">8</button>
+  <button data-action="digit" data-value="9">9</button>
+  <button class="op" data-action="op" data-value="−">−</button>
+  <button data-action="digit" data-value="4">4</button>
+  <button data-action="digit" data-value="5">5</button>
+  <button data-action="digit" data-value="6">6</button>
+  <button class="op" data-action="op" data-value="+">+</button>
+  <button data-action="digit" data-value="1">1</button>
+  <button data-action="digit" data-value="2">2</button>
+  <button data-action="digit" data-value="3">3</button>
+  <button class="eq" data-action="equals">=</button>
+  <button class="zero" data-action="digit" data-value="0">0</button>
+  <button data-action="dot">.</button>
+ </div>
+</main>
+<script>
+let tokens = [];      // numbers and operators, e.g. [5, '+', 3, '×']
+let cur = '0';        // number currently being typed ('' right after an operator)
+let fresh = false;    // true right after "=" or an error
+const exprEl = document.getElementById('expr');
+const mainEl = document.getElementById('main');
+
+function render(error){
+  exprEl.textContent = tokens.join(' ');
+  mainEl.classList.toggle('error', !!error);
+  mainEl.textContent = error || (cur === '' ? tokens[tokens.length - 1] : cur);
+}
+function reset(){ tokens = []; cur = '0'; fresh = false; }
+
+function digit(d){
+  if (fresh){ reset(); cur = ''; }
+  cur = (cur === '0' || cur === '') ? d : cur + d;
+  render();
+}
+function dot(){
+  if (fresh){ reset(); cur = '0'; }
+  if (cur === '') cur = '0';
+  if (!cur.includes('.')) cur += '.';
+  render();
+}
+function op(o){
+  if (fresh){ tokens = []; fresh = false; }
+  if (cur === ''){ tokens[tokens.length - 1] = o; }   // change operator
+  else { tokens.push(parseFloat(cur), o); cur = ''; }
+  render();
+}
+function back(){
+  if (fresh){ reset(); return render(); }
+  if (cur !== ''){ cur = cur.slice(0, -1); if (cur === '' && tokens.length === 0) cur = '0'; }
+  else { tokens.pop(); cur = String(tokens.pop()); }
+  render();
+}
+function evaluate(t){
+  // pass 1: × and ÷ first
+  const s = [t[0]];
+  for (let i = 1; i < t.length; i += 2){
+    const o = t[i], n = t[i + 1];
+    if (o === '×') s[s.length - 1] *= n;
+    else if (o === '÷'){
+      if (n === 0) throw new Error('Cannot divide by zero');
+      s[s.length - 1] /= n;
+    } else s.push(o, n);
+  }
+  // pass 2: + and − left to right
+  let r = s[0];
+  for (let i = 1; i < s.length; i += 2) r = s[i] === '+' ? r + s[i + 1] : r - s[i + 1];
+  return r;
+}
+function equals(){
+  if (fresh || tokens.length === 0) return;
+  if (cur === '') tokens.pop();                        // drop dangling operator
+  else tokens.push(parseFloat(cur));
+  if (tokens.length === 1){ cur = String(tokens[0]); tokens = []; return render(); }
+  const expression = tokens.join(' ');
+  try {
+    const r = parseFloat(evaluate(tokens).toPrecision(12));
+    tokens = []; cur = String(r); fresh = true;
+    render(); exprEl.textContent = expression + ' =';
+  } catch (e){
+    reset(); fresh = true; render(e.message);
+  }
+}
+
+document.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+  const v = b.dataset.value;
+  switch (b.dataset.action){
+    case 'digit': digit(v); break;
+    case 'dot': dot(); break;
+    case 'op': op(v); break;
+    case 'equals': equals(); break;
+    case 'back': back(); break;
+    case 'clear': reset(); render(); break;
+  }
+}));
+
+// keyboard support
+document.addEventListener('keydown', e => {
+  if (/^[0-9]$/.test(e.key)) digit(e.key);
+  else if (e.key === '.') dot();
+  else if ('+-*/'.includes(e.key)) op({'+':'+','-':'−','*':'×','/':'÷'}[e.key]);
+  else if (e.key === 'Enter' || e.key === '=') { e.preventDefault(); equals(); }
+  else if (e.key === 'Backspace') back();
+  else if (e.key === 'Escape') { reset(); render(); }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Divvela Jagadeesh – Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f7fb;--ink:#14213d;--muted:#4a5678;--accent:#3a5bff;--line:#d9dfee;--white:#fff;
+--head:'Space Grotesk',Arial,sans-serif;--body:'DM Sans',Arial,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:var(--body);font-size:1.0625rem;line-height:1.65;color:var(--ink);background:var(--bg)}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;background:var(--white);border-bottom:1px solid var(--line);z-index:10}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;min-height:60px;flex-wrap:wrap;gap:12px}
+nav b{font-family:var(--head)}
+nav ul{display:flex;gap:22px;list-style:none}
+nav a{text-decoration:none;color:var(--ink)}
+nav a:hover{color:var(--accent)}
+section{padding:72px 0}
+h2{font-family:var(--head);font-size:2rem;margin-bottom:24px}
+.hero .wrap{display:flex;align-items:center;gap:48px}
+.avatar{flex:0 0 200px;height:200px;border-radius:50%;background:var(--accent);color:var(--white);display:grid;place-items:center;font-family:var(--head);font-size:4rem;font-weight:700}
+.hero h1{font-family:var(--head);font-size:3rem;line-height:1.1;margin-bottom:8px}
+.role{font-size:1.25rem;color:var(--muted);margin-bottom:20px}
+.btn{display:inline-block;background:var(--accent);color:var(--white);padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:500}
+.about p{max-width:38em;color:var(--muted)}
+.skills ul{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;list-style:none}
+.skills li{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-weight:500}
+.projects .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:24px}
+.card h3{font-family:var(--head);margin-bottom:8px}
+.card p{color:var(--muted);margin-bottom:16px}
+.contact p{margin-bottom:8px}
+footer{padding:24px 0;text-align:center;color:var(--muted);border-top:1px solid var(--line)}
+@media (max-width:700px){
+ .hero .wrap{flex-direction:column;text-align:center}
+ .avatar{flex-basis:150px;width:150px;height:150px;font-size:3rem}
+ .hero h1{font-size:2.25rem}section{padding:48px 0}nav ul{gap:14px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav>
+ <div class="wrap">
+  <b>DJ</b>
+  <ul>
+   <li><a href="#about">About</a></li>
+   <li><a href="#skills">Skills</a></li>
+   <li><a href="#projects">Projects</a></li>
+   <li><a href="#contact">Contact</a></li>
+  </ul>
+ </div>
+</nav>
+
+<header class="hero" style="padding:80px 0 40px">
+ <div class="wrap">
+  <div class="avatar" role="img" aria-label="Profile photo placeholder">DJ</div>
+  <div>
+   <h1>Divvela Jagadeesh</h1>
+   <p class="role">Full Stack Developer</p>
+   <a class="btn" href="#projects">See my work</a>
+  </div>
+ </div>
+</header>
+
+<section class="about" id="about">
+ <div class="wrap">
+  <h2>About me</h2>
+  <p>I'm an Information Technology graduate from Seshadri Rao Gudlavalleru Engineering College. I build full-stack web apps with the MERN stack and explore computer vision and LLM-based systems. I like turning ideas into working products.</p>
+ </div>
+</section>
+
+<section class="skills" id="skills">
+ <div class="wrap">
+  <h2>Skills</h2>
+  <ul>
+   <li>HTML &amp; CSS</li><li>JavaScript</li><li>React</li><li>Node.js</li>
+   <li>Express</li><li>MongoDB</li><li>Python</li><li>YOLOv8</li>
+   <li>LSTM</li><li>LLM / RAG</li><li>Git &amp; GitHub</li>
+  </ul>
+ </div>
+</section>
+
+<section class="projects" id="projects">
+ <div class="wrap">
+  <h2>Projects</h2>
+  <div class="list">
+   <article class="card">
+    <h3>Project One</h3>
+    <p>A short description of what this project does and the problem it solves. Built with React and Node.js.</p>
+    <a href="https://github.com/Jagadeesh1614">View on GitHub</a>
+   </article>
+   <article class="card">
+    <h3>Project Two</h3>
+    <p>A short description of this computer vision project and the model it uses. Built with Python and YOLOv8.</p>
+    <a href="https://github.com/Jagadeesh1614">View on GitHub</a>
+   </article>
+  </div>
+ </div>
+</section>
+
+<section class="contact" id="contact">
+ <div class="wrap">
+  <h2>Contact</h2>
+  <p><b>Name:</b> Divvela Jagadeesh</p>
+  <p><b>Email:</b> <a href="mailto:divvelajagadeesh1427@gmail.com">divvelajagadeesh1427@gmail.com</a></p>
+  <p><a href="https://github.com/Jagadeesh1614">GitHub</a> &nbsp;|&nbsp; <a href="https://linkedin.com/in/divvela-jagadeesh-b52610328">LinkedIn</a></p>
+ </div>
+</section>
+<footer>&copy; 2026 Divvela Jagadeesh</footer>
+</body>
+</html>

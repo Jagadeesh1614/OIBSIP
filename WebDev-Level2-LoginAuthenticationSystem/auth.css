@@ -1,0 +1,13 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#eef2f7;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;color:#1f2933}
+.card{background:#fff;width:100%;max-width:400px;border-radius:14px;padding:32px;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+h1{font-size:1.5rem;margin-bottom:20px}
+label{display:block;font-weight:bold;margin:14px 0 6px}
+input{width:100%;padding:12px;font-size:1rem;border:1px solid #c5d0dc;border-radius:8px}
+input:focus-visible,button:focus-visible{outline:3px solid #0b7285;outline-offset:2px}
+button{width:100%;margin-top:22px;padding:12px;font-size:1rem;font-weight:bold;color:#fff;background:#0b7285;border:0;border-radius:8px;cursor:pointer}
+.msg{margin-top:14px;min-height:1.3em;font-size:.95rem;color:#b42318}
+.msg.ok{color:#237a3b}
+.alt{margin-top:16px;font-size:.95rem}
+a{color:#0b7285}
+.hint{font-size:.85rem;color:#616e7c;margin-top:4px}

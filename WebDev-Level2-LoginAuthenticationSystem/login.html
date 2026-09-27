@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login</title><link rel="stylesheet" href="auth.css"></head>
+<body>
+<main class="card">
+ <h1>Log in</h1>
+ <form id="form" novalidate>
+  <label for="email">Email</label>
+  <input id="email" type="email" autocomplete="email">
+  <label for="password">Password</label>
+  <input id="password" type="password" autocomplete="current-password">
+  <button type="submit">Login</button>
+ </form>
+ <p class="msg" id="msg" role="alert"></p>
+ <p class="alt">New here? <a href="register.html">Create an account</a></p>
+</main>
+<script src="auth.js"></script>
+<script>
+if (Auth.current()) location.replace('dashboard.html');
+const msg = document.getElementById('msg');
+document.getElementById('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const pw = document.getElementById('password').value;
+  if (!email || !pw) return msg.textContent = 'Fill in both fields.';
+  const r = await Auth.login(email, pw);
+  if (!r.ok) return msg.textContent = r.error;
+  location.href = 'dashboard.html';
+});
+</script>
+</body></html>
